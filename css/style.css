@@ -1,0 +1,561 @@
+/* ========================================
+   ROOT VARIABLES & RESET
+   ======================================== */
+:root {
+    --primary-green: #1a5c38;
+    --light-green: #e8f5ee;
+    --border-green: #d0eadb;
+    --heart-red: #ff3366;
+    --heart-glow: rgba(255, 51, 102, 0.5);
+    --dark-bg: rgba(0, 0, 0, 0.75);
+    --text-light: #ffffff;
+    --text-dark: #333333;
+    --text-gray: #777777;
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
+    --border-radius: 12px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f5f5f5;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+}
+
+/* ========================================
+   APP LAYOUT
+   ======================================== */
+#app {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
+/* Header Styles */
+#header {
+    background: var(--text-light);
+    padding: 10px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--shadow-sm);
+    z-index: 1000;
+    flex-shrink: 0;
+    gap: 10px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--primary-green);
+    flex-shrink: 0;
+}
+
+.logo-icon {
+    font-size: 24px;
+}
+
+.lang-btn {
+    background: var(--primary-green);
+    color: var(--text-light);
+    border: none;
+    padding: 8px 16px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+.lang-btn:hover {
+    background: #0e3d24;
+    transform: scale(1.02);
+}
+
+/* Sidebar toggle button (mobile only by default) */
+.sidebar-toggle-btn {
+    display: none;
+    background: var(--light-green);
+    color: var(--primary-green);
+    border: none;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+/* Main Content Layout */
+#main {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+}
+
+/* ========================================
+   SLIDING BANNER STYLES
+   ======================================== */
+.sliding-banner {
+    flex: 1;
+    background: linear-gradient(90deg, 
+        rgba(26, 92, 56, 0.08) 0%, 
+        rgba(255, 51, 102, 0.1) 50%, 
+        rgba(26, 92, 56, 0.08) 100%);
+    border-radius: 40px;
+    margin: 0 15px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    min-width: 0; /* allow shrinking inside flex */
+}
+
+.sliding-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    cursor: grab;
+    scroll-behavior: auto !important;
+    direction: ltr;
+}
+
+[dir="rtl"] .sliding-wrapper {
+    direction: rtl;
+}
+
+.sliding-wrapper:active {
+    cursor: grabbing;
+}
+
+.sliding-content {
+    display: inline-block;
+    white-space: nowrap;
+    padding: 0 20px;
+    line-height: 44px;
+    font-size: 13px;
+    color: #1a5c38;
+    direction: ltr;
+}
+
+[dir="rtl"] .sliding-content {
+    direction: rtl;
+}
+
+.sliding-content span {
+    color: #ff3366;
+    margin: 0 4px;
+}
+
+.sliding-wrapper::-webkit-scrollbar {
+    display: none;
+}
+
+.sliding-wrapper {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+[dir="rtl"] .sliding-wrapper {
+    scroll-behavior: auto;
+}
+
+[dir="rtl"] .sliding-content {
+    unicode-bidi: embed;
+}
+
+/* ========================================
+   SIDEBAR STYLES
+   ======================================== */
+#sidebar {
+    width: 280px;
+    background: var(--text-light);
+    border-left: 1px solid #eee;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    flex-shrink: 0;
+    z-index: 100;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.3s ease;
+}
+
+.sidebar-section {
+    padding: 18px 16px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.section-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: #aaa;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+}
+
+/* Search Section */
+.search-wrapper {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.search-input {
+    flex: 1;
+    padding: 10px 12px;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 13px;
+    outline: none;
+    transition: border 0.2s;
+    background: #fafafa;
+    min-width: 0;
+}
+
+.search-input:focus {
+    border-color: var(--primary-green);
+    background: var(--text-light);
+}
+
+.search-btn {
+    background: var(--primary-green);
+    color: var(--text-light);
+    border: none;
+    border-radius: 8px;
+    padding: 0 14px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.2s;
+    flex-shrink: 0;
+}
+
+.search-btn:hover {
+    background: #0e3d24;
+}
+
+.search-results {
+    max-height: 200px;
+    overflow-y: auto;
+    display: none;
+}
+
+.search-results.active {
+    display: block;
+}
+
+.result-item {
+    padding: 10px 12px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    margin-bottom: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.15s;
+}
+
+.result-item:hover {
+    background: var(--light-green);
+    color: var(--primary-green);
+}
+
+/* Memorial Info Section */
+.memorial-stats {
+    text-align: center;
+    padding: 12px;
+    background: linear-gradient(135deg, #fff5f5, #ffffff);
+    border-radius: var(--border-radius);
+    margin-bottom: 15px;
+}
+
+.stat-number {
+    font-size: 32px;
+    font-weight: bold;
+    color: var(--heart-red);
+}
+
+.stat-label {
+    font-size: 11px;
+    color: var(--text-gray);
+    margin-top: 4px;
+}
+
+.memorial-poem {
+    font-size: 12px;
+    font-style: italic;
+    color: var(--primary-green);
+    text-align: center;
+    padding: 12px;
+    background: var(--light-green);
+    border-radius: var(--border-radius);
+    margin-bottom: 12px;
+}
+
+.memorial-location {
+    font-size: 12px;
+    color: var(--text-gray);
+    text-align: center;
+    padding: 8px;
+}
+
+/* About Section */
+.about-text {
+    font-size: 12px;
+    line-height: 1.6;
+    color: #555;
+}
+
+/* ========================================
+   MAP STYLES
+   ======================================== */
+#map {
+    flex: 1;
+    background: #e8e8e8;
+    min-width: 0; /* prevent map from overflowing flex container */
+}
+
+/* Heart Marker Animation */
+@keyframes heartbeat {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.4);
+        opacity: 0.9;
+    }
+}
+
+.heart-marker {
+    font-size: 14px;
+    display: inline-block;
+    animation: heartbeat 0.8s ease-in-out infinite;
+    transform-origin: center;
+    filter: drop-shadow(0 0 3px var(--heart-glow));
+    cursor: pointer;
+    transition: font-size 0.2s;
+}
+
+.heart-marker:hover {
+    font-size: 18px;
+}
+
+/* Border Line Animation */
+@keyframes dashFlow {
+    to {
+        stroke-dashoffset: -40;
+    }
+}
+
+.glowing-border {
+    animation: dashFlow 1.5s linear infinite;
+}
+
+/* ========================================
+   MEMORIAL BADGE (Floating)
+   ======================================== */
+.memorial-badge {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background: var(--dark-bg);
+    backdrop-filter: blur(10px);
+    border-radius: 50px;
+    padding: 10px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 500;
+    box-shadow: var(--shadow-md);
+    border-right: 3px solid var(--heart-red);
+    pointer-events: none;
+    max-width: calc(100% - 40px);
+}
+
+.badge-heart {
+    font-size: 24px;
+    animation: heartbeat 0.8s ease-in-out infinite;
+    flex-shrink: 0;
+}
+
+.badge-text {
+    color: var(--text-light);
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.badge-text small {
+    font-size: 10px;
+    color: #ccc;
+    display: block;
+}
+
+/* ========================================
+   HINT TOOLTIP
+   ======================================== */
+.hint {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--dark-bg);
+    backdrop-filter: blur(8px);
+    color: var(--text-light);
+    padding: 8px 18px;
+    border-radius: 40px;
+    font-size: 12px;
+    z-index: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: opacity 0.3s;
+    pointer-events: none;
+    white-space: nowrap;
+    max-width: calc(100% - 24px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.hint.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* ========================================
+   SCROLLBAR STYLES
+   ======================================== */
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary-green);
+    border-radius: 5px;
+}
+
+
+/* ========================================
+   SIDEBAR STYLES
+   ======================================== */
+#sidebar {
+    width: 280px;
+    background: #fff;
+    border-left: 1px solid #eee;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    flex-shrink: 0;
+    z-index: 1000;  /* ← افزایش از 100 به 1000 */
+    box-shadow: var(--shadow-sm);
+    position: relative;  /* ← اضافه شود */
+}
+
+/* ========================================
+   MOBILE RESPONSIVE
+   ======================================== */
+@media (max-width: 700px) {
+    .sidebar-toggle-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1001;  /* ← دکمه بالاتر از همه */
+        background: var(--primary-green);
+        color: white;
+        border-radius: 8px;
+        width: 36px;
+        height: 36px;
+    }
+    
+    .logo-text {
+        display: none;
+    }
+    
+    #sidebar {
+        position: fixed;
+        top: 0;
+        right: 0;
+        height: 100%;
+        width: 280px;
+        max-width: 80%;
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+        z-index: 2000 !important;  /* ← بسیار بالا */
+        box-shadow: -4px 0 20px rgba(0,0,0,0.25);
+        border-left: none;
+    }
+    
+    #sidebar.open {
+        transform: translateX(0);
+    }
+    
+    [dir="ltr"] #sidebar {
+        right: auto;
+        left: 0;
+        transform: translateX(-100%);
+    }
+    
+    [dir="ltr"] #sidebar.open {
+        transform: translateX(0);
+    }
+    
+    /* اطمینان از بالاتر بودن سایدبار از نقشه */
+    #map {
+        z-index: 1;
+        position: relative;
+    }
+    
+    #sidebarOverlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1500;  /* ← بین سایدبار و نقشه */
+        display: none;
+    }
+    
+    #sidebarOverlay.active {
+        display: block;
+    }
+}
+
+/* ========================================
+   MAP CONTAINER
+   ======================================== */
+#map {
+    flex: 1;
+    background: #e8e8e8;
+    z-index: 1;
+    position: relative;
+}

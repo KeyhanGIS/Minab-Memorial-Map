@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Minab Martyrs Memorial | یادمان شهدای میناب</title>
+    
+    <!-- Leaflet CSS (OpenStreetMap library) -->
+    <link rel="stylesheet" href="css/leaflet.css" />
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Main Application Container -->
+    <div id="app">
+        
+        <!-- Header / Top Navigation Bar -->
+        <header id="header">
+            <button id="sidebarToggle" class="sidebar-toggle-btn">☰</button>
+            <div class="logo">
+                <span class="logo-icon">🗺</span>
+                <span class="logo-text" data-i18n="logo">Minab Martyrs Memorial</span>
+            </div>
+            
+            <div class="sliding-banner">
+                <div class="sliding-wrapper" id="slidingWrapper">
+                    <div class="sliding-content" id="slidingContent"></div>
+                </div>
+            </div>
+            
+            <button id="langToggle" class="lang-btn">
+                <span class="lang-icon">🌐</span>
+                <span class="lang-text">فارسی</span>
+            </button>
+        </header>
+
+        <!-- Main Content Area -->
+        <main id="main">
+            
+            <!-- Sidebar - Simple and focused on memorial -->
+            <aside id="sidebar">
+                
+                <!-- Search Section -->
+                <div class="sidebar-section">
+                    <h3 class="section-title" data-i18n="searchTitle">🔍 Find Location</h3>
+                    <div class="search-wrapper">
+                        <input type="text" id="searchInput" class="search-input" 
+                               placeholder="Search for Minab, Bandar Abbas..." data-i18n-placeholder="searchPlaceholder">
+                        <button id="searchBtn" class="search-btn">🔍</button>
+                    </div>
+                    <div id="searchResults" class="search-results"></div>
+                </div>
+
+                <!-- Memorial Info Section -->
+                <div class="sidebar-section memorial-info">
+                    <h3 class="section-title" data-i18n="memorialTitle">💚 Memorial</h3>
+                    <div class="memorial-stats">
+                        <div class="stat-number">❤️ <span id="heartCount">158</span></div>
+                        <div class="stat-label" data-i18n="heartsLabel">Beating Hearts</div>
+                    </div>
+                    <div class="memorial-poem" data-i18n="poem">
+                        "We live to never rest..."
+                    </div>
+                    <div class="memorial-location">
+                        📍 <span data-i18n="locationText">Minab, Hormozgan, Iran</span>
+                    </div>
+                </div>
+
+                <!-- About Section -->
+                <div class="sidebar-section about-section">
+                    <h3 class="section-title" data-i18n="aboutTitle">📖 About</h3>
+                    <p class="about-text" data-i18n="aboutText">
+                        This map honors 158 martyrs from Minab city. 
+                        Each red heart represents a brave soul who sacrificed for Iran.
+                    </p>
+                </div>
+
+            </aside>
+
+            <!-- Map Container -->
+            <div id="map"></div>
+
+        </main>
+
+        <div id="sidebarOverlay"></div>
+
+
+        <!-- Floating Memorial Badge -->
+        <div id="memorialBadge" class="memorial-badge">
+            <div class="badge-heart">❤️</div>
+            <div class="badge-text">
+                <span data-i18n="badgeTitle">158 Martyrs</span>
+                <small data-i18n="badgeSubtitle">Minab, Iran</small>
+            </div>
+        </div>
+
+        <!-- Custom Cursor Hint (for heart interaction) -->
+        <div id="hint" class="hint hidden">
+            <span>❤️</span> <span data-i18n="hintText">Each heart = One martyr</span>
+        </div>
+
+    </div>
+
+    <!-- Leaflet JavaScript -->
+    <script src="js/leaflet.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script src="js/script.js"></script>
+</body>
+</html>
