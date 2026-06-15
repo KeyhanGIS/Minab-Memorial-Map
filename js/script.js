@@ -28,13 +28,14 @@ document.addEventListener('DOMContentLoaded', function() {
         borderPoints = borderData.points;
         martyrsList = martyrsData.martyrs;
         
-        console.log(`✅ Loaded ${borderPoints.length} border points`);
-        console.log(`✅ Loaded ${martyrsList.length} martyrs`);
+        // console.log(`✅ Loaded ${borderPoints.length} border points`);
+        // console.log(`✅ Loaded ${martyrsList.length} martyrs`);
         
         // Initialize map after data is loaded
         initMap();
         createGlowingBorder();
         createHearts();
+        addSchoolMarker();
         setupSearch();
         setupBilingual();
         setupSidebarToggle();
@@ -280,14 +281,19 @@ function createHearts() {
                     <div style="color: #555; margin-top: 5px;">${job}</div>
                     <div style="color: #888; font-size: 11px;">${ageText}</div>
                     <div style="color: #aaa; font-size: 10px; margin-top: 8px; border-top: 1px solid #eee; padding-top: 5px;">
-                        🏴‍☠️ ${currentLang === 'fa' ? 'شهید والامقام میناب' : 'Martyr from Minab'}
+                        🏴‍☠️ ${currentLang === 'fa' ? 'شهید مدرسه میناب' : 'Martyr of Minab School'}
                     </div>
                 </div>
             `;
         }, { maxWidth: 220 });
     }
     
-    document.getElementById('heartCount').textContent = totalHearts;
+    const heartEl = document.getElementById('heartCount');
+    if (currentLang === 'fa') {
+        heartEl.innerHTML = '۱۵۶ ❤️'; 
+    } else {
+        heartEl.innerHTML = '111 ❤️';
+    }
 }
 
 // =========================================
@@ -389,60 +395,74 @@ function setupSearch() {
 // =========================================
 // 7. BILINGUAL SUPPORT
 // =========================================
+// =========================================
+// BILINGUAL TRANSLATIONS (گلوبال)
+// =========================================
+const translations = {
+    en: {
+        logo: 'Minab Martyrs Memorial',
+        searchPlaceholder: 'Search for Minab, Bandar Abbas...',
+        searchTitle: '🔍 Find Location',
+        memorialTitle: '❤️ Memorial',
+        heartsLabel: 'Hearts along the border',
+        poem: 'Every heart marks a soul whose life became part of this land — so the land could remain.',
+        locationText: 'Minab, Hormozgan, Iran',
+        aboutTitle: '📖 About',
+        aboutText: 'On that day, a <strong>school</strong> became a target.\n\nOf the 156 lives lost in the attack on Minab School, 120 were children — students who had come to learn, not to become part of history. The rest were teachers and staff who stood beside them until the end.\n\n🖱️ Click any heart to see the name of the person it represents.\nThey are not statistics — they had names.',
+        badgeTitle: '156 Martyrs',
+        badgeSubtitle: 'Minab, Iran',
+        hintText: 'Each heart = One martyr',
+        schoolTitle: "🏫 Minab Martyrs School",
+        schoolText: "Place of martyrdom of 156 holy martyrs of Minab<br><small>(120 students, school staff and parents)</small>"
+    },
+    fa: {
+        logo: 'یادمان شهدای میناب',
+        searchPlaceholder: 'جستجوی میناب، بندرعباس...',
+        searchTitle: '🔍 جستجوی مکان',
+        memorialTitle: '❤️ یادمان',
+        heartsLabel: 'شهدای مدرسه میناب',
+        poem: 'هر قلب نشانه‌ی روحی است که جانش را بخشید تا این خاک بماند.',
+        locationText: 'میناب، هرمزگان، ایران',
+        aboutTitle: '📖 درباره',
+        aboutText: 'آن روز، یک مدرسه هدف قرار گرفت.\n\nاز ۱۵۶ نفری که در حمله به مدرسه میناب جان باختند، ۱۲۰ نفر دانش‌آموز بودند، کودکانی که برای یادگیری آمده بودند، نه برای اینکه بخشی از تاریخ شوند. بقیه معلمان و کارکنانی بودند که تا آخرین لحظه کنارشان ماندند.\n\n🖱️ روی هر قلب کلیک کنید تا نام یکی از شهیدا را ببینید.\nآن‌ها آمار نیستند، نام داشتند.',
+        badgeTitle: '۱۵۶ شهید',
+        badgeSubtitle: 'میناب، ایران',
+        hintText: 'هر قلب = یک شهید',
+        schoolTitle: "🏫 مدرسه شهدای میناب",
+        schoolText: "محل شهادت ۱۵۶ شهید والامقام میناب<br><small>(۱۲۰ دانش‌آموز، کارمندان مدرسه و والدین)</small>"
+    }
+};
+
+
 function setupBilingual() {
-    const translations = {
-        en: {
-            logo: 'Minab Martyrs Memorial',
-            searchPlaceholder: 'Search for Minab, Bandar Abbas...',
-            searchTitle: '🔍 Find Location',
-            memorialTitle: '❤️ Memorial',
-            heartsLabel: 'Hearts along the border',
-            poem: 'Every heart marks a soul whose life became part of this land — so the land could remain.',
-            locationText: 'Minab, Hormozgan, Iran',
-            aboutTitle: '📖 About',
-            aboutText: 'On that day, a <strong>school</strong> became a target.\n\nOf the 156 lives lost in the attack on Minab School, 120 were children — students who had come to learn, not to become part of history. The rest were teachers and staff who stood beside them until the end.\n\n🖱️ Click any heart to see the name of the person it represents.\nThey are not statistics — they had names.',
-            badgeTitle: '156 Martyrs',
-            badgeSubtitle: 'Minab, Iran',
-            hintText: 'Each heart = One martyr'
-        },
-        fa: {
-            logo: 'یادمان شهدای میناب',
-            searchPlaceholder: 'جستجوی میناب، بندرعباس...',
-            searchTitle: '🔍 جستجوی مکان',
-            memorialTitle: '❤️ یادمان',
-            heartsLabel: 'شهیدان میناب',
-            poem: 'هر قلب نشانه‌ی روحی است که جانش را بخشید تا این خاک بماند.',
-            locationText: 'میناب، هرمزگان، ایران',
-            aboutTitle: '📖 درباره',
-            aboutText: 'آن روز، یک مدرسه هدف قرار گرفت.\n\nاز ۱۵۶ نفری که در حمله به مدرسه میناب جان باختند، ۱۲۰ نفر دانش‌آموز بودند، کودکانی که برای یادگیری آمده بودند، نه برای اینکه بخشی از تاریخ شوند. بقیه معلمان و کارکنانی بودند که تا آخرین لحظه کنارشان ماندند.\n\n🖱️ روی هر قلب کلیک کنید تا نام آن شهید را ببینید.\nآن‌ها آمار نیستند، نام داشتند.',
-            badgeTitle: '۱۵۶ شهید',
-            badgeSubtitle: 'میناب، ایران',
-            hintText: 'هر قلب = یک شهید'
-        }
-    };
-    
     function updateLanguage() {
+        // Get current language translations
         const t = translations[currentLang];
         
+        // Update all elements with data-i18n attribute
         document.querySelectorAll('[data-i18n]').forEach(el => {
             const key = el.getAttribute('data-i18n');
             if (t[key]) el.innerHTML = t[key];
         });
         
+        // Update search input placeholder
         const searchInput = document.getElementById('searchInput');
         if (searchInput) {
             searchInput.placeholder = t.searchPlaceholder;
         }
         
+        // Update logo text
         const logoText = document.querySelector('.logo-text');
         if (logoText) logoText.textContent = t.logo;
         
+        // Update language toggle button text
         const langBtn = document.getElementById('langToggle');
         if (langBtn) {
             const langSpan = langBtn.querySelector('.lang-text');
             if (langSpan) langSpan.textContent = currentLang === 'en' ? 'فارسی' : 'English';
         }
         
+        // Update HTML direction (RTL for Persian, LTR for English)
         const htmlTag = document.documentElement;
         if (currentLang === 'fa') {
             htmlTag.setAttribute('dir', 'rtl');
@@ -452,9 +472,10 @@ function setupBilingual() {
             htmlTag.setAttribute('lang', 'en');
         }
         
-        // به‌روزرسانی بنر (این تابع خودش startAutoScroll را صدا می‌زند)
+        // Update sliding banner text (this will also restart auto-scroll)
         updateBannerText();
-        // راه‌اندازی مجدد قوی
+        
+        // Force restart auto-scroll after language change
         setTimeout(() => {
             const wrapper = document.getElementById('slidingWrapper');
             if (wrapper) {
@@ -464,8 +485,20 @@ function setupBilingual() {
             }
         }, 300);
         
-        // به‌روزرسانی پاپ‌آپ قلب‌ها
+        // Update all heart markers popups with new language
         updateAllPopups();
+        
+        // ✅ Update school popup when language changes
+        if (window.updateSchoolPopup) {
+            window.updateSchoolPopup();
+        }
+
+        const heartEl = document.getElementById('heartCount');
+        if (currentLang === 'fa') {
+            heartEl.innerHTML = '۱۵۶ ❤️';
+        } else {
+            heartEl.innerHTML = '156 ❤️';
+        }
     }
     
     function updateAllPopups() {
@@ -491,7 +524,7 @@ function setupBilingual() {
                             <div style="color: #555; margin-top: 5px;">${job}</div>
                             <div style="color: #888; font-size: 11px;">${ageText}</div>
                             <div style="color: #aaa; font-size: 10px; margin-top: 8px; border-top: 1px solid #eee; padding-top: 5px;">
-                                🏴‍☠️ ${currentLang === 'fa' ? 'شهید والامقام میناب' : 'Martyr from Minab'}
+                                🏴‍☠️ ${currentLang === 'fa' ? 'شهید مدرسه میناب' : 'Martyr of Minab School'}
                             </div>
                         </div>
                     `, { maxWidth: 220 });
@@ -527,7 +560,7 @@ function setupHint() {
 
 
 // =========================================
-//  setupSidebarToggle
+// 9- setupSidebarToggle
 // =========================================
 
 function setupSidebarToggle() {
@@ -540,7 +573,7 @@ function setupSidebarToggle() {
         return;
     }
     
-    console.log('✅ Sidebar toggle initialized');
+    // console.log('✅ Sidebar toggle initialized');
     
     function openSidebar() {
         sidebar.classList.add('open');
@@ -574,8 +607,85 @@ function setupSidebarToggle() {
 }
 
 
+
 // =========================================
-// 9. CONSOLE MESSAGE
+// 10- SCHOOL MARKER (Minab Martyrs School)
+// =========================================
+function addSchoolMarker() {
+    // schoolLat coordinates (Minab)
+    const schoolLat = 27.109831093135572;
+    const schoolLng = 57.084704099172;
+    
+    // Custom gold star icon (smaller than hearts)
+   const schoolIcon = L.divIcon({
+        html: '<div style="font-size: 22px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));">🏫</div>',
+        iconSize: [24, 24],
+        iconAnchor: [12, 22],
+        className: 'school-marker'
+    });
+        
+    // Create marker
+    const schoolMarker = L.marker([schoolLat, schoolLng], {
+        icon: schoolIcon,
+        zIndexOffset: 100
+    }).addTo(map);
+    
+    // Function to update popup content based on current language
+    function updateSchoolPopup() {
+        const t = translations[currentLang];
+        const popupContent = `
+            <div style="text-align: center; direction: ${currentLang === 'fa' ? 'rtl' : 'ltr'}; min-width: 220px; font-family: 'Segoe UI', sans-serif;">
+                
+                <!-- Thumbnail image (JPG) -->
+                <a href="assets/martyrs-full.jpg" target="_blank" rel="noopener noreferrer" style="text-decoration: none;">
+                    <img src="assets/martyrs-thumb.jpg" 
+                         alt="Minab Martyrs Group Photo" 
+                         style="width: 90px; height: 90px; border-radius: 12px; object-fit: cover; margin-bottom: 6px; border: 2px solid #1a5c38; transition: transform 0.2s; cursor: pointer;"
+                         onmouseover="this.style.transform='scale(1.03)'"
+                         onmouseout="this.style.transform='scale(1)'"
+                         onerror="this.style.display='none'">
+                </a>
+                
+                <!-- Hint text -->
+                <a href="assets/martyrs-full.jpg" target="_blank" rel="noopener noreferrer" style="text-decoration: none;">
+                    <div style="font-size: 10px; color: #ff3366; margin-top: 2px;">
+                        📸 ${currentLang === 'fa' ? 'کلیک کنید / مشاهده عکس اصلی' : 'Click to view full photo'}
+                    </div>
+                </a>
+                
+                <!-- School title -->
+                <div style="font-weight: bold; color: #1a5c38; font-size: 14px; margin: 8px 0 4px 0;">
+                       ${t.schoolTitle}
+                </div>
+                
+                <!-- Description text -->
+                <div style="font-size: 11px; color: #555; margin-bottom: 8px; line-height: 1.5;">
+                    ${t.schoolText}
+                </div>
+
+            </div>
+        `;
+        
+        schoolMarker.bindPopup(popupContent, {
+            maxWidth: 260,
+            minWidth: 200,
+            className: 'school-popup'
+        });
+    }
+    
+    // Initial popup binding
+    updateSchoolPopup();
+    
+    // Store reference to update on language change
+    window.updateSchoolPopup = updateSchoolPopup;
+    
+    console.log(`✅ School marker added at Minab (${schoolLat}, ${schoolLng})`);
+    return schoolMarker;
+}
+
+
+// =========================================
+// 11. CONSOLE MESSAGE
 // =========================================
 console.log(`%c❤️ Minab Martyrs Memorial ❤️`, 'color: #ff3366; font-size: 16px; font-weight: bold;');
 console.log(`%cHonoring the memory of martyrs from Minab, Hormozgan`, 'color: #888; font-size: 11px;');
