@@ -127,17 +127,6 @@ Then open `http://localhost:8000` in your browser.
 
 ---
 
-## 🌍 Deploy on GitHub Pages
-
-1. Push your code to GitHub
-2. Go to **Settings → Pages**
-3. Select branch `main` → Save
-4. Your map will be live at:
-
-    https://KeyhanGIS.github.io/Minab-Memorial-Map/
-
----
-
 ## 🤝 Contributing
 
 This project is open to contributions. You can:
