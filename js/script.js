@@ -22,8 +22,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Load both JSON files simultaneously
     Promise.all([
-        fetch('js/border-points.json').then(res => res.json()),
-        fetch('js/martyrs.json').then(res => res.json())
+        fetch('data/border-points.json').then(res => res.json()),
+        fetch('data/martyrs.json').then(res => res.json())
     ]).then(([borderData, martyrsData]) => {
         borderPoints = borderData.points;
         martyrsList = martyrsData.martyrs;
@@ -395,13 +395,13 @@ function setupBilingual() {
             logo: 'Minab Martyrs Memorial',
             searchPlaceholder: 'Search for Minab, Bandar Abbas...',
             searchTitle: '🔍 Find Location',
-            memorialTitle: '💚 Memorial',
-            heartsLabel: 'Beating Hearts',
-            poem: '"We live to never rest..."',
+            memorialTitle: '❤️ Memorial',
+            heartsLabel: 'Hearts along the border',
+            poem: 'Every heart marks a soul whose life became part of this land — so the land could remain.',
             locationText: 'Minab, Hormozgan, Iran',
             aboutTitle: '📖 About',
-            aboutText: 'This map honors 158 martyrs from Minab city. Each red heart represents a brave soul who sacrificed for Iran.',
-            badgeTitle: '158 Martyrs',
+            aboutText: 'On that day, a <strong>school</strong> became a target.\n\nOf the 156 lives lost in the attack on Minab School, 120 were children — students who had come to learn, not to become part of history. The rest were teachers and staff who stood beside them until the end.\n\n🖱️ Click any heart to see the name of the person it represents.\nThey are not statistics — they had names.',
+            badgeTitle: '156 Martyrs',
             badgeSubtitle: 'Minab, Iran',
             hintText: 'Each heart = One martyr'
         },
@@ -409,13 +409,13 @@ function setupBilingual() {
             logo: 'یادمان شهدای میناب',
             searchPlaceholder: 'جستجوی میناب، بندرعباس...',
             searchTitle: '🔍 جستجوی مکان',
-            memorialTitle: '💚 یادمان',
-            heartsLabel: 'قلب تپنده',
-            poem: '"ما زنده به آنیم که آرام نگیریم..."',
+            memorialTitle: '❤️ یادمان',
+            heartsLabel: 'شهیدان میناب',
+            poem: 'هر قلب نشانه‌ی روحی است که جانش را بخشید تا این خاک بماند.',
             locationText: 'میناب، هرمزگان، ایران',
             aboutTitle: '📖 درباره',
-            aboutText: 'این نقشه به یاد ۱۵۸ شهید والامقام میناب طراحی شده است. هر قلب قرمز نماد یکی از شهداست.',
-            badgeTitle: '۱۵۸ شهید',
+            aboutText: 'آن روز، یک مدرسه هدف قرار گرفت.\n\nاز ۱۵۶ نفری که در حمله به مدرسه میناب جان باختند، ۱۲۰ نفر دانش‌آموز بودند، کودکانی که برای یادگیری آمده بودند، نه برای اینکه بخشی از تاریخ شوند. بقیه معلمان و کارکنانی بودند که تا آخرین لحظه کنارشان ماندند.\n\n🖱️ روی هر قلب کلیک کنید تا نام آن شهید را ببینید.\nآن‌ها آمار نیستند، نام داشتند.',
+            badgeTitle: '۱۵۶ شهید',
             badgeSubtitle: 'میناب، ایران',
             hintText: 'هر قلب = یک شهید'
         }
@@ -426,7 +426,7 @@ function setupBilingual() {
         
         document.querySelectorAll('[data-i18n]').forEach(el => {
             const key = el.getAttribute('data-i18n');
-            if (t[key]) el.textContent = t[key];
+            if (t[key]) el.innerHTML = t[key];
         });
         
         const searchInput = document.getElementById('searchInput');
