@@ -435,28 +435,23 @@ const translations = {
 // VISIT COUNTER (GoatCounter)
 // =========================================
 function loadVisitCount() {
+    const visitElement = document.getElementById('visit-count');
+    if (!visitElement) return;
+    
     if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-        console.log('Visit counter disabled on localhost');
+        visitElement.textContent = '—';
         return;
     }
     
     fetch('https://gis.goatcounter.com/counter/VISITS.json')
         .then(r => r.json())
         .then(data => {
-            const count = data.count;
-            const visitElement = document.getElementById('visitCount');
-            if (visitElement) {
-                visitElement.textContent = count.toLocaleString(currentLang === 'fa' ? 'fa-IR' : 'en-US');
-            }
+            visitElement.textContent = data.count.toLocaleString();
         })
-        .catch(err => {
-            console.error('Failed to load visit count:', err);
-            const visitElement = document.getElementById('visitCount');
-            console.log("visitElement",visitElement)
-            if (visitElement) visitElement.textContent = '—';
+        .catch(() => {
+            visitElement.textContent = '—';
         });
 }
-
 
 // =========================================
 // setupBilingual:
