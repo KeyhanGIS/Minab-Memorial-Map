@@ -42,7 +42,6 @@ document.addEventListener('DOMContentLoaded', function() {
         setupHint();
         initSlidingBanner();
         setupDragScroll();
-        loadVisitCount();
 
     }).catch(error => {
         console.error('Error loading JSON files:', error);
@@ -402,7 +401,6 @@ const translations = {
         locationText: 'Minab, Hormozgan, Iran',
         aboutTitle: '📖 About',
         aboutText: 'On that day, a <strong>school</strong> became a target.\n Of the 156 lives lost in the attack on Minab School, 120 were children — students who had come to learn, not to become part of history. The rest were teachers and staff who stood beside them until the end.\n\n🖱️ Click any heart to see the name of the person it represents.\nThey are not statistics — they had names.',
-        visitText: "visits",
         githubLink: "🐙 View source code on GitHub",
         badgeTitle: '156 Martyrs',
         badgeSubtitle: 'Minab, Iran',
@@ -420,7 +418,6 @@ const translations = {
         locationText: 'میناب، هرمزگان، ایران',
         aboutTitle: '📖 درباره',
         aboutText: 'آن روز، یک مدرسه هدف قرار گرفت.\nاز ۱۵۶ نفری که در حمله به مدرسه میناب جان باختند، ۱۲۰ نفر دانش‌آموز بودند، کودکانی که برای یادگیری آمده بودند، نه برای اینکه بخشی از تاریخ شوند. بقیه معلمان و کارکنانی بودند که تا آخرین لحظه کنارشان ماندند.\n\n🖱️ روی هر قلب کلیک کنید تا نام یکی از شهیدا را ببینید.\nآن‌ها آمار نیستند، نام داشتند.',
-        visitText: "بازدید",
         githubLink: "🐙 مشاهده کد منبع در گیت‌هاب",
         badgeTitle: '۱۵۶ شهید',
         badgeSubtitle: 'میناب، ایران',
@@ -430,26 +427,6 @@ const translations = {
     }
 };
 
-
-// =========================================
-// VISIT COUNTER (GoatCounter)
-// =========================================
-function loadVisitCount() {
-    const visitElement = document.getElementById('visit-count');
-    if (!visitElement) return;
-    
-    // GoatCounter JSONP method
-    const script = document.createElement('script');
-    script.src = 'https://gis.goatcounter.com/counter/VISITS.json?callback=gotCount';
-    document.head.appendChild(script);
-}
-
-window.gotCount = function(data) {
-    const visitElement = document.getElementById('visit-count');
-    if (visitElement && data && data.count) {
-        visitElement.textContent = data.count.toLocaleString();
-    }
-};
 
 // =========================================
 // setupBilingual:

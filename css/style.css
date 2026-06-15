@@ -363,6 +363,21 @@ html, body {
 }
 
 
+
+/* Visitor Badge Styles */
+.visitor-badge {
+    text-align: center;
+    margin-top: 15px;
+    padding: 8px;
+    border-top: 1px solid #eee;
+}
+
+.visitor-badge img {
+    vertical-align: middle;
+    max-width: 100%;
+    height: auto;
+}
+
 /* GITHUB LINK STYLES: */
   
 .github-link {
