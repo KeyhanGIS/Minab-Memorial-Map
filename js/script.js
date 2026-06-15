@@ -54,10 +54,6 @@ document.addEventListener('DOMContentLoaded', function() {
 // SLIDING BANNER FUNCTION
 // =========================================
 
-// =========================================
-// SLIDING BANNER (martyrs names ticker)
-// =========================================
-
 // Current horizontal offset of the sliding text (persists across calls)
 let bannerPos = 0;
 
@@ -395,9 +391,6 @@ function setupSearch() {
 // =========================================
 // 7. BILINGUAL SUPPORT
 // =========================================
-// =========================================
-// BILINGUAL TRANSLATIONS (گلوبال)
-// =========================================
 const translations = {
     en: {
         logo: 'Minab Martyrs Memorial',
@@ -408,7 +401,8 @@ const translations = {
         poem: 'Every heart marks a soul whose life became part of this land — so the land could remain.',
         locationText: 'Minab, Hormozgan, Iran',
         aboutTitle: '📖 About',
-        aboutText: 'On that day, a <strong>school</strong> became a target.\n\nOf the 156 lives lost in the attack on Minab School, 120 were children — students who had come to learn, not to become part of history. The rest were teachers and staff who stood beside them until the end.\n\n🖱️ Click any heart to see the name of the person it represents.\nThey are not statistics — they had names.',
+        aboutText: 'On that day, a <strong>school</strong> became a target.\n Of the 156 lives lost in the attack on Minab School, 120 were children — students who had come to learn, not to become part of history. The rest were teachers and staff who stood beside them until the end.\n\n🖱️ Click any heart to see the name of the person it represents.\nThey are not statistics — they had names.',
+        githubLink: "View source code on GitHub",
         badgeTitle: '156 Martyrs',
         badgeSubtitle: 'Minab, Iran',
         hintText: 'Each heart = One martyr',
@@ -425,6 +419,7 @@ const translations = {
         locationText: 'میناب، هرمزگان، ایران',
         aboutTitle: '📖 درباره',
         aboutText: 'آن روز، یک مدرسه هدف قرار گرفت.\n\nاز ۱۵۶ نفری که در حمله به مدرسه میناب جان باختند، ۱۲۰ نفر دانش‌آموز بودند، کودکانی که برای یادگیری آمده بودند، نه برای اینکه بخشی از تاریخ شوند. بقیه معلمان و کارکنانی بودند که تا آخرین لحظه کنارشان ماندند.\n\n🖱️ روی هر قلب کلیک کنید تا نام یکی از شهیدا را ببینید.\nآن‌ها آمار نیستند، نام داشتند.',
+        githubLink: "مشاهده کد منبع در گیت‌هاب",
         badgeTitle: '۱۵۶ شهید',
         badgeSubtitle: 'میناب، ایران',
         hintText: 'هر قلب = یک شهید',
@@ -555,10 +550,6 @@ function setupHint() {
     }, 5000);
 }
 
-
-
-
-
 // =========================================
 // 9- setupSidebarToggle
 // =========================================
@@ -605,7 +596,6 @@ function setupSidebarToggle() {
         }
     });
 }
-
 
 
 // =========================================

@@ -203,7 +203,7 @@ html, body {
 }
 
 .sidebar-section {
-    padding: 18px 16px;
+    padding: 18px 5px;
     border-bottom: 1px solid #f0f0f0;
 }
 
@@ -297,13 +297,13 @@ html, body {
 }
 
 .stat-label {
-    font-size: 11px;
+    font-size: 14px;
     color: var(--text-gray);
     margin-top: 4px;
 }
 
 .memorial-poem {
-    font-size: 12px;
+    font-size: 15px;
     font-style: italic;
     color: var(--primary-green);
     text-align: center;
@@ -327,32 +327,32 @@ html, body {
     color: #3a3a3a;
     text-align: justify;
     background: #fefefe;
-    padding: 14px 16px;
+    padding: 14px 10px;
     border-radius: 14px;
     border-right: 3px solid #ff3366;
     box-shadow: 0 1px 3px rgba(0,0,0,0.05);
     white-space: pre-line;
 }
 
-/* برای حالت انگلیسی */
+/* For English mode (LTR) */
 [dir="ltr"] .about-text {
     border-right: none;
     border-left: 3px solid #ff3366;
     text-align: left;
 }
 
-/* هایلایت کلمات کلیدی */
+/* Highlight keywords */
 .about-text strong {
     color: #1a5c38;
     font-weight: 600;
 }
 
-/* فاصله بین پاراگراف‌ها */
+/* Spacing between paragraphs */
 .about-text br {
     margin-bottom: 6px;
 }
 
-/* استایل لینک داخل متن (اگر باشد) */
+/* Link style inside text (if any) */
 .about-text a {
     color: #ff3366;
     text-decoration: none;
@@ -360,6 +360,37 @@ html, body {
 
 .about-text a:hover {
     text-decoration: underline;
+}
+
+
+/* GITHUB LINK STYLES: */
+  
+.github-link {
+    margin-bottom: 10px;
+    padding-top: 8px;
+    padding-left: 10px;
+    border-top: 1px solid #eee;
+
+}
+
+.github-link a {
+    color: #1a5c38;
+    text-decoration: none;
+    font-size: 11px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+}
+
+.github-link a:hover {
+    color: #ff3366;
+    text-decoration: underline;
+}
+
+/* For Persian mode (LTR) */
+[dir="rtl"] .github-link a {
+    flex-direction: row-reverse;
 }
 
 /* ========================================
