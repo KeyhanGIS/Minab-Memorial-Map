@@ -438,20 +438,18 @@ function loadVisitCount() {
     const visitElement = document.getElementById('visit-count');
     if (!visitElement) return;
     
-    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-        visitElement.textContent = '—';
-        return;
-    }
-    
-    fetch('https://gis.goatcounter.com/counter/VISITS.json')
-        .then(r => r.json())
-        .then(data => {
-            visitElement.textContent = data.count.toLocaleString();
-        })
-        .catch(() => {
-            visitElement.textContent = '—';
-        });
+    // GoatCounter JSONP method
+    const script = document.createElement('script');
+    script.src = 'https://gis.goatcounter.com/counter/VISITS.json?callback=gotCount';
+    document.head.appendChild(script);
 }
+
+window.gotCount = function(data) {
+    const visitElement = document.getElementById('visit-count');
+    if (visitElement && data && data.count) {
+        visitElement.textContent = data.count.toLocaleString();
+    }
+};
 
 // =========================================
 // setupBilingual:
