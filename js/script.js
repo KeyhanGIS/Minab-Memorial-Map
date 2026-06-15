@@ -9,6 +9,31 @@ let currentMarker = null;
 let searchTimeout = null;
 let slidingContainer = null;
 
+
+
+
+
+// =========================================
+// VISIT COUNTER (GoatCounter) - گلوبال
+// =========================================
+function loadVisitCount() {
+    fetch('https://gis.goatcounter.com/counter/VISITS.json')
+        .then(r => r.json())
+        .then(data => {
+            const count = data.count;
+            const visitElement = document.getElementById('visitCount');
+            if (visitElement) {
+                // نمایش عدد با جداکننده هزارگان
+                visitElement.textContent = count.toLocaleString(currentLang === 'fa' ? 'fa-IR' : 'en-US');
+            }
+        })
+        .catch(err => {
+            console.error('Failed to load visit count:', err);
+            const visitElement = document.getElementById('visitCount');
+            if (visitElement) visitElement.textContent = '—';
+        });
+}
+
 // =========================================
 // 2. WAIT FOR DOM AND LOAD DATA
 // =========================================
@@ -42,6 +67,8 @@ document.addEventListener('DOMContentLoaded', function() {
         setupHint();
         initSlidingBanner();
         setupDragScroll();
+        loadVisitCount();
+
 
         
     }).catch(error => {
@@ -402,6 +429,7 @@ const translations = {
         locationText: 'Minab, Hormozgan, Iran',
         aboutTitle: '📖 About',
         aboutText: 'On that day, a <strong>school</strong> became a target.\n Of the 156 lives lost in the attack on Minab School, 120 were children — students who had come to learn, not to become part of history. The rest were teachers and staff who stood beside them until the end.\n\n🖱️ Click any heart to see the name of the person it represents.\nThey are not statistics — they had names.',
+        visitText: "visits",
         githubLink: "🐙 View source code on GitHub",
         badgeTitle: '156 Martyrs',
         badgeSubtitle: 'Minab, Iran',
@@ -419,6 +447,7 @@ const translations = {
         locationText: 'میناب، هرمزگان، ایران',
         aboutTitle: '📖 درباره',
         aboutText: 'آن روز، یک مدرسه هدف قرار گرفت.\nاز ۱۵۶ نفری که در حمله به مدرسه میناب جان باختند، ۱۲۰ نفر دانش‌آموز بودند، کودکانی که برای یادگیری آمده بودند، نه برای اینکه بخشی از تاریخ شوند. بقیه معلمان و کارکنانی بودند که تا آخرین لحظه کنارشان ماندند.\n\n🖱️ روی هر قلب کلیک کنید تا نام یکی از شهیدا را ببینید.\nآن‌ها آمار نیستند، نام داشتند.',
+        visitText: "بازدید",
         githubLink: "🐙 مشاهده کد منبع در گیت‌هاب",
         badgeTitle: '۱۵۶ شهید',
         badgeSubtitle: 'میناب، ایران',
@@ -672,6 +701,10 @@ function addSchoolMarker() {
     console.log(`✅ School marker added at Minab (${schoolLat}, ${schoolLng})`);
     return schoolMarker;
 }
+
+
+
+
 
 
 // =========================================
