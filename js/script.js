@@ -9,31 +9,6 @@ let currentMarker = null;
 let searchTimeout = null;
 let slidingContainer = null;
 
-
-
-
-
-// =========================================
-// VISIT COUNTER (GoatCounter) - گلوبال
-// =========================================
-function loadVisitCount() {
-    fetch('https://gis.goatcounter.com/counter/VISITS.json')
-        .then(r => r.json())
-        .then(data => {
-            const count = data.count;
-            const visitElement = document.getElementById('visitCount');
-            if (visitElement) {
-                // نمایش عدد با جداکننده هزارگان
-                visitElement.textContent = count.toLocaleString(currentLang === 'fa' ? 'fa-IR' : 'en-US');
-            }
-        })
-        .catch(err => {
-            console.error('Failed to load visit count:', err);
-            const visitElement = document.getElementById('visitCount');
-            if (visitElement) visitElement.textContent = '—';
-        });
-}
-
 // =========================================
 // 2. WAIT FOR DOM AND LOAD DATA
 // =========================================
@@ -69,8 +44,6 @@ document.addEventListener('DOMContentLoaded', function() {
         setupDragScroll();
         loadVisitCount();
 
-
-        
     }).catch(error => {
         console.error('Error loading JSON files:', error);
         document.getElementById('heartCount').textContent = 'Error';
@@ -458,6 +431,37 @@ const translations = {
 };
 
 
+// =========================================
+// VISIT COUNTER (GoatCounter)
+// =========================================
+function loadVisitCount() {
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+        console.log('Visit counter disabled on localhost');
+        return;
+    }
+    
+    fetch('https://gis.goatcounter.com/counter/VISITS.json')
+        .then(r => r.json())
+        .then(data => {
+            const count = data.count;
+            const visitElement = document.getElementById('visitCount');
+            if (visitElement) {
+                visitElement.textContent = count.toLocaleString(currentLang === 'fa' ? 'fa-IR' : 'en-US');
+            }
+        })
+        .catch(err => {
+            console.error('Failed to load visit count:', err);
+            const visitElement = document.getElementById('visitCount');
+            console.log("visitElement",visitElement)
+            if (visitElement) visitElement.textContent = '—';
+        });
+}
+
+
+// =========================================
+// setupBilingual:
+// =========================================
+
 function setupBilingual() {
     function updateLanguage() {
         // Get current language translations
@@ -698,7 +702,6 @@ function addSchoolMarker() {
     // Store reference to update on language change
     window.updateSchoolPopup = updateSchoolPopup;
     
-    console.log(`✅ School marker added at Minab (${schoolLat}, ${schoolLng})`);
     return schoolMarker;
 }
 
