@@ -189,14 +189,140 @@ function setupDragScroll() {
 // =========================================
 // 3. MAP INITIALIZATION
 // =========================================
+
+// Simple and correct solution for MAP:
+// function initMap() {
+//     map = L.map('map').setView([27.5, 56.5], 7);
+    
+//     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+//         attribution: '© OpenStreetMap contributors',
+//         maxZoom: 18
+//     }).addTo(map);
+    
+//     L.control.scale({ imperial: false, position: 'bottomleft' }).addTo(map);
+// }
+
+
+// Solution for when the user's internet connection cannot see some basic maps. So we test some more maps for the user:
+// TILE SERVERS (priority order):
+// First: OSM — most beautiful and detailed
+// Second: OSM-DE — German server, often accessible
+// Third: CartoDB — reliable fallback for restricted regions
+
 function initMap() {
+    // Step 1: Create map instance
     map = L.map('map').setView([27.5, 56.5], 7);
     
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap contributors',
-        maxZoom: 18
-    }).addTo(map);
+    // Step 2: Show loading indicator
+    const loadingControl = L.control({ position: 'bottomright' });
+    loadingControl.onAdd = function() {
+        const div = L.DomUtil.create('div', 'loading-indicator');
+        div.innerHTML = '🗺️ Loading map...';
+        div.style.background = 'rgba(0,0,0,0.7)';
+        div.style.color = 'white';
+        div.style.padding = '6px 12px';
+        div.style.borderRadius = '20px';
+        div.style.fontSize = '12px';
+        return div;
+    };
+    loadingControl.addTo(map);
     
+    // Step 3: Tile servers (only 2 for speed)
+    const tileServers = [
+        {
+            url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+            attribution: '© OpenStreetMap contributors',
+            maxZoom: 19,
+            name: 'OSM'
+        },
+        {
+            url: 'https://tile.openstreetmap.de/{z}/{x}/{y}.png',
+            attribution: '© OpenStreetMap contributors (DE)',
+            maxZoom: 18,
+            name: 'OSM-DE'
+        },
+         {
+            url: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+            attribution: '© OpenStreetMap, © CARTO',
+            maxZoom: 19,
+            name: 'CartoDB'
+        }
+        
+    ];
+    
+    // Step 4: Test tile server with 2-second timeout
+    function testTileServer(server, callback) {
+        const testUrl = server.url
+            .replace('{s}', 'a')
+            .replace('{z}', '0')
+            .replace('{x}', '0')
+            .replace('{y}', '0');
+        
+        const img = new Image();
+        let timeoutId;
+        
+        const cleanup = () => {
+            clearTimeout(timeoutId);
+            img.onload = null;
+            img.onerror = null;
+        };
+        
+        img.onload = () => {
+            cleanup();
+            callback(true);
+        };
+        
+        img.onerror = () => {
+            cleanup();
+            callback(false);
+        };
+        
+        timeoutId = setTimeout(() => {
+            cleanup();
+            callback(false);
+        }, 2000); // 2 seconds timeout
+        
+        img.src = testUrl;
+    }
+    
+    // Step 5: Load tile layer with fallback
+    let currentIndex = 0;
+    
+    function loadTileLayer() {
+        if (currentIndex >= tileServers.length) {
+            console.warn('⚠️ No tile server available!');
+            map.removeControl(loadingControl);
+            return;
+        }
+        
+        const server = tileServers[currentIndex];
+        console.log(`🔄 Testing tile server: ${server.name} (${currentIndex + 1}/${tileServers.length})`);
+        
+        testTileServer(server, (isAvailable) => {
+            if (isAvailable) {
+                console.log(`✅ Using tile server: ${server.name}`);
+                const tileLayer = L.tileLayer(server.url, {
+                    attribution: server.attribution,
+                    maxZoom: server.maxZoom
+                }).addTo(map);
+                
+                // Remove loading indicator
+                map.removeControl(loadingControl);
+                
+                // Store reference
+                window.currentTileLayer = tileLayer;
+            } else {
+                console.warn(`❌ Tile server "${server.name}" is not available.`);
+                currentIndex++;
+                loadTileLayer();
+            }
+        });
+    }
+    
+    // Step 6: Start loading
+    loadTileLayer();
+    
+    // Step 7: Scale control
     L.control.scale({ imperial: false, position: 'bottomleft' }).addTo(map);
 }
 
